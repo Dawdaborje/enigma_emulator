@@ -1,38 +1,30 @@
-# sv
+# My Enigma Emulator
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This is an emulator that recreates the famous Enigma machine - the legendary cryptography device used extensively during World War II in the 1940s.
 
-## Creating a project
+## What is the Enigma Machine?
 
-If you're seeing this, you've probably already done this step. Congrats!
+The Enigma machine was a mechanical encryption device that scrambled messages to keep military communications secret. It was primarily used by German forces during WWII, and breaking its code was one of the most significant intelligence breakthroughs of the war.
 
-```bash
-# create a new project in the current directory
-npx sv create
+## What You're Building
 
-# create a new project in my-app
-npx sv create my-app
-```
+You're creating a digital recreation of this historical machine that will:
 
-## Developing
+- **Simulate the original mechanics** - Three rotating wheels (rotors) that scramble letters as you type
+- **Provide authentic encryption** - Use the same encoding principles as the real 1940s machine
+- **Offer interactive experience** - Click buttons, adjust settings, and see letters light up just like the original
+- **Demonstrate historical cryptography** - Show how encryption worked before computers
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Key Features Your Emulator Will Have
 
-```bash
-npm run dev
+- **Rotors** - Three spinning wheels that change the encryption with each letter
+- **Keyboard** - Type messages just like on the original machine
+- **Lampboard** - See encoded letters light up
+- **Plugboard** - Connect letter pairs for extra security (like the real machine)
+- **Historical accuracy** - Based on actual Enigma specifications
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## Why This Matters
 
-## Building
+This project combines history, mathematics, and programming to bring an important piece of WWII technology back to life. It's educational, technically challenging, and creates something people can actually use to understand how encryption worked in the pre-digital era.
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Your emulator will let anyone experience the same encryption process that once protected top-secret military communications!
