@@ -2,6 +2,10 @@
 
 This is an emulator that recreates the famous Enigma machine - the legendary cryptography device used extensively during World War II in the 1940s.
 
+## Inspiration
+
+After watching _The Imitation Game_, I became fascinated by the incredible story of Alan Turing and the team at Bletchley Park who worked tirelessly to crack the Enigma code. The film beautifully showcased both the complexity of the machine and the brilliance required to break it. This project is my tribute to that remarkable achievement and a way to explore the fascinating intersection of history, mathematics, and cryptography that captivated me in the movie.
+
 ## What is the Enigma Machine?
 
 The Enigma machine was a mechanical encryption device that scrambled messages to keep military communications secret. It was primarily used by German forces during WWII, and breaking its code was one of the most significant intelligence breakthroughs of the war.
