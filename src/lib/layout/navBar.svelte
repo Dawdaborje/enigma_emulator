@@ -22,17 +22,17 @@
 
 <header class="w-full p-6">
 	<nav class="mx-auto flex max-w-7xl items-center justify-between">
-		<div class="text-2xl font-bold text-amber-400">
+		<a href="/" class="text-2xl font-bold text-amber-400">
 			{typedText}<span class="animate-pulse text-amber-300">|</span>
-		</div>
+		</a>
 		<div class="hidden space-x-6 md:flex">
-			<a href="#about" class="text-gray-300 transition-colors duration-200 hover:text-amber-400"
-				>About</a
+			<a href="/about" class="text-gray-300 transition-colors duration-200 hover:text-amber-400"
+				>About this project</a
 			>
-			<a href="#features" class="text-gray-300 transition-colors duration-200 hover:text-amber-400"
+			<a href="/features" class="text-gray-300 transition-colors duration-200 hover:text-amber-400"
 				>Features</a
 			>
-			<a href="#history" class="text-gray-300 transition-colors duration-200 hover:text-amber-400"
+			<a href="/history" class="text-gray-300 transition-colors duration-200 hover:text-amber-400"
 				>History</a
 			>
 		</div>
