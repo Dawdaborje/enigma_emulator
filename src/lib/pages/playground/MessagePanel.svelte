@@ -1,22 +1,23 @@
 <script>
+	import { state } from '$lib/engine/states.svelte';
+
 	let { activeTab } = $props();
 
-	let inputMessage = $state('');
-	let outputMessage = $state('');
-
 	function processMessage() {
-		if (!inputMessage.trim()) return;
+		if (!state.inputMessage.trim()) return;
 
-		// Simulate processing (replace with actual Enigma logic)
-		outputMessage = inputMessage
+		// @ts-ignore
+		state.outputMessage = state.inputMessage
 			.split('')
 			.map(() => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random() * 26)])
 			.join('');
 	}
 
 	function clearMessages() {
-		inputMessage = '';
-		outputMessage = '';
+		// @ts-ignore
+		state.inputMessage = '';
+		// @ts-ignore
+		state.outputMessage = '';
 	}
 </script>
 
@@ -40,7 +41,7 @@
 			{activeTab === 'encrypt' ? 'Plain Text' : 'Encrypted Text'}
 		</label>
 		<textarea
-			bind:value={inputMessage}
+			bind:value={state.inputMessage}
 			placeholder={activeTab === 'encrypt'
 				? 'Enter your secret message...'
 				: 'Enter encrypted message...'}
@@ -73,7 +74,7 @@
 		<div
 			class="h-32 w-full overflow-auto rounded-lg border border-gray-600 bg-gray-900 px-4 py-3 font-mono text-sm text-amber-400"
 		>
-			{outputMessage || 'Output will appear here...'}
+			{state.outputMessage || 'Output will appear here...'}
 		</div>
 	</div>
 </div>

@@ -1,21 +1,14 @@
 <script>
-	let rotorPositions = ['A', 'A', 'A'];
-	let rotorTypes = ['I', 'II', 'III'];
-	let ringSettings = [1, 1, 1];
-	let reflectorType = 'B';
-
-	const rotorOptions = ['I', 'II', 'III', 'IV', 'V'];
-	const reflectorOptions = ['B', 'C'];
-	const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	import { state, alphabet, rotorOptions, reflectorOptions } from '$lib/engine/states.svelte';
 
 	/**
 	 * @param {number} index
 	 * @param {number} direction
 	 */
 	function updateRotorPosition(index, direction) {
-		const currentIndex = alphabet.indexOf(rotorPositions[index]);
+		const currentIndex = alphabet.indexOf(state.rotorPositions[index]);
 		const newIndex = (currentIndex + direction + 26) % 26;
-		rotorPositions[index] = alphabet[newIndex];
+		state.rotorPositions[index] = alphabet[newIndex];
 	}
 </script>
 
@@ -40,15 +33,16 @@
 
 	<!-- Rotors -->
 	<div class="space-y-6">
-		{#each rotorPositions as position, i}
+		{#each state.rotorPositions as position, i}
 			<div class="rounded-lg border border-gray-600 bg-gray-900/50 p-4">
 				<h3 class="mb-3 text-sm font-medium text-gray-300">Rotor {i + 1}</h3>
 
 				<!-- Rotor Type -->
 				<div class="mb-3">
+					<!-- svelte-ignore a11y_label_has_associated_control -->
 					<label class="mb-1 block text-xs text-gray-400">Type</label>
 					<select
-						bind:value={rotorTypes[i]}
+						bind:value={state.rotorTypes[i]}
 						class="w-full rounded border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
 					>
 						{#each rotorOptions as option}
@@ -59,10 +53,11 @@
 
 				<!-- Position -->
 				<div class="mb-3">
+					<!-- svelte-ignore a11y_label_has_associated_control -->
 					<label class="mb-1 block text-xs text-gray-400">Position</label>
 					<div class="flex items-center space-x-2">
 						<button
-							on:click={() => updateRotorPosition(i, -1)}
+							onclick={() => updateRotorPosition(i, -1)}
 							class="h-8 w-8 rounded bg-gray-700 text-sm text-white hover:bg-gray-600">-</button
 						>
 						<div
@@ -71,7 +66,7 @@
 							{position}
 						</div>
 						<button
-							on:click={() => updateRotorPosition(i, 1)}
+							onclick={() => updateRotorPosition(i, 1)}
 							class="h-8 w-8 rounded bg-gray-700 text-sm text-white hover:bg-gray-600">+</button
 						>
 					</div>
@@ -79,10 +74,11 @@
 
 				<!-- Ring Setting -->
 				<div>
+					<!-- svelte-ignore a11y_label_has_associated_control -->
 					<label class="mb-1 block text-xs text-gray-400">Ring Setting</label>
 					<input
 						type="number"
-						bind:value={ringSettings[i]}
+						bind:value={state.ringSettings[i]}
 						min="1"
 						max="26"
 						class="w-full rounded border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
@@ -95,7 +91,7 @@
 		<div class="rounded-lg border border-gray-600 bg-gray-900/50 p-4">
 			<h3 class="mb-3 text-sm font-medium text-gray-300">Reflector</h3>
 			<select
-				bind:value={reflectorType}
+				bind:value={state.reflectorType}
 				class="w-full rounded border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white"
 			>
 				{#each reflectorOptions as option}

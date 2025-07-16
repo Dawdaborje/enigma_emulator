@@ -1,8 +1,7 @@
 <script>
-	let { activeTab } = $props();
+	import { state } from '$lib/engine/states.svelte';
 
-	let currentLetter = $state('');
-	let outputLetter = $state('');
+	let { activeTab } = $props();
 
 	const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -10,15 +9,13 @@
 	 * @param {string} letter
 	 */
 	function handleKeyPress(letter) {
-		currentLetter = letter;
-		// Simulate encoding (replace with actual Enigma logic)
+		state.currentLetter = letter;
 		const randomIndex = Math.floor(Math.random() * 26);
-		outputLetter = alphabet[randomIndex];
+		state.outputLetter = alphabet[randomIndex];
 
-		// Clear after a short delay
 		setTimeout(() => {
-			currentLetter = '';
-			outputLetter = '';
+			state.currentLetter = '';
+			state.outputLetter = '';
 		}, 1500);
 	}
 </script>
@@ -34,11 +31,10 @@
 		<div class="grid grid-cols-6 gap-2">
 			{#each alphabet as letter}
 				<div
-					class={`flex h-10 w-10 items-center justify-center rounded-full border-2 font-mono text-sm transition-all duration-200 ${
-						letter === outputLetter
-							? 'border-amber-400 bg-amber-400 text-black shadow-lg shadow-amber-400/50'
-							: 'border-gray-600 bg-gray-900 text-gray-400'
-					}`}
+					class="flex h-10 w-10 items-center justify-center rounded-full border-2 font-mono text-sm transition-all duration-200 {letter ===
+					state.outputLetter
+						? 'border-amber-400 bg-amber-400 text-black shadow-lg shadow-amber-400/50'
+						: 'border-gray-600 bg-gray-900 text-gray-400'}"
 				>
 					{letter}
 				</div>
@@ -53,11 +49,10 @@
 			{#each alphabet as letter}
 				<button
 					onclick={() => handleKeyPress(letter)}
-					class={`flex h-10 w-10 items-center justify-center rounded-lg border-2 font-mono text-sm transition-all duration-200 hover:scale-105 ${
-						letter === currentLetter
-							? 'border-amber-400 bg-amber-400/20 text-amber-400'
-							: 'border-gray-600 bg-gray-800 text-gray-300 hover:border-gray-500 hover:bg-gray-700'
-					}`}
+					class="flex h-10 w-10 items-center justify-center rounded-lg border-2 font-mono text-sm transition-all duration-200 hover:scale-105 {letter ===
+					state.currentLetter
+						? 'border-amber-400 bg-amber-400/20 text-amber-400'
+						: 'border-gray-600 bg-gray-800 text-gray-300 hover:border-gray-500 hover:bg-gray-700'}"
 				>
 					{letter}
 				</button>
