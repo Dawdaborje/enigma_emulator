@@ -1,23 +1,47 @@
 <script>
-	import { state } from '$lib/engine/states.svelte';
+	import { enigmaEncrypt, encryptedValue, decryptedValue, states } from '$lib/engine/states.svelte';
 
-	let { activeTab } = $props();
+	// @ts-ignore
+	let inputMessageValue = $state('');
+	let activeTab = $state('encrypt');
+	let currentState = $state();
+
+	// Subscribe to state changes
+	$effect(() => {
+		const unsubscribe = states.subscribe((value) => {
+			currentState = value;
+		});
+		return unsubscribe;
+	});
 
 	function processMessage() {
-		if (!state.inputMessage.trim()) return;
+		if (!inputMessageValue.trim()) return;
 
-		// @ts-ignore
-		state.outputMessage = state.inputMessage
-			.split('')
-			.map(() => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random() * 26)])
-			.join('');
+		// Reset rotor positions for batch processing
+		const processingState = { ...currentState };
+
+		enigmaEncrypt(inputMessageValue, activeTab, processingState);
 	}
 
 	function clearMessages() {
-		// @ts-ignore
-		state.inputMessage = '';
-		// @ts-ignore
-		state.outputMessage = '';
+		inputMessageValue = '';
+		encryptedValue.set('');
+		decryptedValue.set('');
+
+		// Reset output letter display
+		states.update((s) => ({
+			...s,
+			currentLetter: '',
+			outputLetter: ''
+		}));
+	}
+
+	/**
+	 * @param {string} tab
+	 */
+	function switchTab(tab) {
+		activeTab = tab;
+		clearMessages();
 	}
 </script>
 
@@ -34,6 +58,28 @@
 		Message Processing
 	</h2>
 
+	<!-- Tab switcher -->
+	<div class="mb-4 flex rounded-lg border border-gray-600 bg-gray-900/50">
+		<button
+			onclick={() => switchTab('encrypt')}
+			class="flex-1 rounded-l-lg px-4 py-2 text-sm font-medium transition-colors {activeTab ===
+			'encrypt'
+				? 'bg-amber-500 text-black'
+				: 'text-gray-300 hover:bg-gray-700'}"
+		>
+			Encrypt
+		</button>
+		<button
+			onclick={() => switchTab('decrypt')}
+			class="flex-1 rounded-r-lg px-4 py-2 text-sm font-medium transition-colors {activeTab ===
+			'decrypt'
+				? 'bg-amber-500 text-black'
+				: 'text-gray-300 hover:bg-gray-700'}"
+		>
+			Decrypt
+		</button>
+	</div>
+
 	<!-- Input -->
 	<div class="mb-6">
 		<!-- svelte-ignore a11y_label_has_associated_control -->
@@ -41,7 +87,7 @@
 			{activeTab === 'encrypt' ? 'Plain Text' : 'Encrypted Text'}
 		</label>
 		<textarea
-			bind:value={state.inputMessage}
+			bind:value={inputMessageValue}
 			placeholder={activeTab === 'encrypt'
 				? 'Enter your secret message...'
 				: 'Enter encrypted message...'}
@@ -53,7 +99,8 @@
 	<div class="mb-6 flex space-x-3">
 		<button
 			onclick={processMessage}
-			class="flex-1 rounded-lg bg-amber-500 px-4 py-2 font-medium text-black transition-colors hover:bg-amber-400"
+			class="flex-1 rounded-lg bg-amber-500 px-4 py-2 font-medium text-black transition-colors hover:bg-amber-400 disabled:opacity-50"
+			disabled={!inputMessageValue.trim()}
 		>
 			{activeTab === 'encrypt' ? 'Encrypt' : 'Decrypt'}
 		</button>
@@ -74,7 +121,11 @@
 		<div
 			class="h-32 w-full overflow-auto rounded-lg border border-gray-600 bg-gray-900 px-4 py-3 font-mono text-sm text-amber-400"
 		>
-			{state.outputMessage || 'Output will appear here...'}
+			{#if activeTab === 'encrypt'}
+				{$encryptedValue || 'Output will appear here...'}
+			{:else}
+				{$decryptedValue || 'Output will appear here...'}
+			{/if}
 		</div>
 	</div>
 </div>
